@@ -10,7 +10,7 @@ public class Guitar {
     private Model model;
     private Integer year;
     private StringCount strings;
-    private boolean hasPickup;
+    private Boolean hasPickup;
     private Integer price;
     public String description;
 
@@ -30,7 +30,7 @@ public class Guitar {
         return year;
     }
 
-    public boolean isHasPickup() {
+    public Boolean isHasPickup() {
         return hasPickup;
     }
 
@@ -50,6 +50,7 @@ public class Guitar {
     public String toString() {
         return "Guitar{" +
                 "brand=" + brand +
+                ", model=" + model +
                 ", year=" + year +
                 ", strings=" + strings +
                 ", hasPickup=" + hasPickup +
@@ -57,8 +58,6 @@ public class Guitar {
                 ", description='" + description + '\'' +
                 '}';
     }
-
-
 
     public Guitar(GuitarBuilder builder) {
         this.brand = builder.brand;
@@ -111,6 +110,11 @@ public class Guitar {
             Guitar guitar = new Guitar(this);
             //TODO: validate guitar object
             return guitar;
+        }
+
+        public GuitarBuilder description(String description) {
+            this.description = description;
+            return this;
         }
     }
 }
