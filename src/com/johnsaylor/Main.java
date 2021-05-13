@@ -10,8 +10,11 @@ public class Main {
                 .brand(Brand.OTHER)
                 .year(1984).build();
 
+        Guitar electric = new ElectricGuitar.Builder().brand(Brand.GIBSON).model(Model.SG).build();
+
         guitar.setDescription("Well worn in");
 
         System.out.println(guitar);
+        System.out.println(electric);
     }
 }
