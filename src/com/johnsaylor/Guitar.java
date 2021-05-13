@@ -1,26 +1,23 @@
 package com.johnsaylor;
 
-enum Brand {FENDER, GIBSON, YAMAHA, OTHER}
-enum Model {STRATOCASTER, SG, LES_PAUL, OTHER}
-enum StringCount {SIX, TWELVE}
-enum BodyType {HOLLOW, SOLID}
+import com.johnsaylor.types.Brand;
+import com.johnsaylor.types.Model;
+import com.johnsaylor.types.StringCount;
 
-public class Guitar {
-    private Brand brand;
-    private Model model;
-    private Integer year;
-    private StringCount strings;
-    private Boolean hasPickup;
-    private Integer price;
+public abstract class Guitar {
+    protected Brand brand;
+    protected Model model;
+    protected Integer year;
+    protected StringCount strings;
+    protected Boolean hasPickup;
+    protected Integer price;
     public String description;
 
     public StringCount getStrings() {
         return strings;
     }
 
-    public Model getModel() {
-        return model;
-    }
+    public Model getModel() { return model; }
 
     public Brand getBrand() {
         return brand;
@@ -59,20 +56,17 @@ public class Guitar {
                 '}';
     }
 
-    public Guitar(GuitarBuilder builder) {
+    Guitar(Builder<?> builder) {
         this.brand = builder.brand;
         this.model = builder.model;
         this.year = builder.year;
-        this.strings = builder.strings;
+        this.strings = builder.strings == null ? StringCount.SIX : builder.strings;
         this.hasPickup = builder.hasPickup;
         this.price = builder.price;
         this.description = builder.description;
-
     }
 
-
-
-    public static class GuitarBuilder{
+    abstract static class Builder<T extends Builder<T>>{
         private Brand brand;
         private Model model;
         private Integer year;
@@ -81,40 +75,42 @@ public class Guitar {
         private Integer price;
         public String description;
 
-        public GuitarBuilder(Brand brand, Model model) {
+        abstract Guitar build();
+        protected abstract T self();
+
+        public T brand(Brand brand) {
             this.brand = brand;
+            return self();
+        }
+
+        public T model(Model model){
             this.model = model;
+            return self();
         }
 
-        public GuitarBuilder year(Integer year) {
+        public T year(Integer year) {
             this.year = year;
-            return this;
+            return self();
         }
 
-        public GuitarBuilder string(StringCount strings) {
+        public T string(StringCount strings) {
             this.strings =strings;
-            return this;
+            return self();
         }
 
-        public GuitarBuilder hasPickup(boolean hasPickup) {
+        public T hasPickup(boolean hasPickup) {
             this.hasPickup = hasPickup;
-            return this;
+            return self();
         }
 
-        public GuitarBuilder price(Integer price) {
+        public T price(Integer price) {
             this.price = price;
-            return this;
+            return self();
         }
 
-        public Guitar build() {
-            Guitar guitar = new Guitar(this);
-            //TODO: validate guitar object
-            return guitar;
-        }
-
-        public GuitarBuilder description(String description) {
+        public T description(String description) {
             this.description = description;
-            return this;
+            return self();
         }
     }
 }
